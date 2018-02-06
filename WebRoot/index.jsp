@@ -61,7 +61,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<hr>
 	<h2>向结果传参数</h2>
 	<a href="http://localhost:8080/Struts2_0100_Introduction/user/user6?type=2">向结果传参数</a>
-  </body>
+	<hr>
+	<a href="http://localhost:8080/Struts2_0100_Introduction/ognl/ognl?username=u&password=p">ognl1</a>
+	<a href="http://localhost:8080/Struts2_0100_Introduction/ognl/ognl?username=u&password=p&user.age=1&user.name=2">ognl2</a>
+	<a href="http://localhost:8080/Struts2_0100_Introduction/ognl/ognl?username=u&password=p&user.age=1&user.name=2&cat.friend.name=oudy">ognl2</a>
+	</body>
 </html>
 
 

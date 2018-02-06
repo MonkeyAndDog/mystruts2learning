@@ -355,3 +355,5 @@ public class LoginAction2 extends ActionSupport implements RequestAware, Session
 	</result>
 </action>
 ```
+### OGNL表达式
+1. user.xxx只有传，才会构造。同时还必须要提供参数 为空的构造方法。

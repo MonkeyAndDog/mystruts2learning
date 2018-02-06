@@ -41,6 +41,7 @@
     <constant name="struts.enable.DynamicMethodInvocation" value="true" />
      
     <include file="struts2-mydefaction.xml"></include> 
+    <include file="ognl.xml"></include>
     <!-- 继承于 struts-default的根目录，默认情况下是"/" -->
     <package name="front" extends="struts-default">	
     	<action name="hello" class="com.mrhu.struts.introduction.IndexAction" method="execute" >
@@ -62,7 +63,6 @@
     	</action>
    
     </package>
-    
     
     <package name="user" extends="front" namespace="/user">
      	
