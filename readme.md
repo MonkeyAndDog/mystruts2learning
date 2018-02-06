@@ -1,7 +1,7 @@
 # mystruts2learning
 Struts2学习
 ## Struts2
-struts.xml配置文件
+1. struts.xml配置文件
 
     <!-- 动态方法绑定注册 -->
     <constant name="struts.enable.DynamicMethodInvocation" value="true" />
@@ -64,7 +64,7 @@ struts.xml配置文件
 			<result name="error">/{1}{2}_error.jsp</result>
 		</action>
 	</package>
-web.xml配置文件
+2. web.xml配置文件
 ```
   <!-- 默认处理页面 -->
   <welcome-file-list>
@@ -84,10 +84,274 @@ web.xml配置文件
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 ```
-struts2最小开发jar包
+3. struts2最小开发jar包
 ![struts2最小开发jar包.png](http://upload-images.jianshu.io/upload_images/7364514-6abd7ef9145f1984.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-三种实现Action的方法
-1.自己写一个可以返回String类型的方法
-2.实现Action接口
-3.继承于ActionSupport类（推荐）
+4. 三种实现Action的方法
+	1. 自己写一个可以返回String类型的方法
+	2. 实现Action接口
+	3. 继承于ActionSupport类（推荐）
+### Action总结
+1. 实现一个Action最常用方式：从ActionSupport继承
+```
+import com.opensymphony.xwork2.ActionSupport;
+
+public class UserAction extends ActionSupport{
+    //返回String类型的值
+	public String add() {
+		return SUCCESS;
+	}
+}
+```
+2. DMI动态方法调用   ！  在struts2.5以后需要指定
+```
+<!--在action中指定-->
+<allowed-methods>add</allowed-methods>
+<!--或者在package中指定-->
+<global-allowed-methods>add</global-allowed-methods>
+```
+3. 通配符配置    * 在2.5版本以后需要在package中声明
+```
+<global-allowed-methods>regex:.*</global-allowed-methods>
+```
+4. 接收参数的方法（一般使用属性或者DomainModel来接收）
+```
+//属性方法
+import com.opensymphony.xwork2.ActionSupport;
+
+public class UserAction extends ActionSupport{
+	private String name;
+	private int age;
+	
+	public String add() {
+		System.out.println("Name:"+name);
+		System.out.println("Age:"+age);
+		return SUCCESS;
+	}
+	
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	/**
+	 * @return the age
+	 */
+	public int getAge() {
+		return age;
+	}
+	/**
+	 * @param age the age to set
+	 */
+	public void setAge(int age) {
+		this.age = age;
+	}
+	
+}
+
+```
+```
+//DomainModel方法
+import com.opensymphony.xwork2.ActionSupport;
+
+public class UserAction extends ActionSupport{
+	private User user;
+	
+	public String add() {
+		System.out.println(user.getAge());
+		System.out.println(user.getName());
+		return SUCCESS;
+	}
+
+	/**
+	 * @return the user
+	 */
+	public User getUser() {
+		return user;
+	}
+
+	/**
+	 * @param user the user to set
+	 */
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+}
+
+//支持DomainModel的模型类
+public class User {
+	private int age;
+	private String name;
+	/**
+	 * @return the age
+	 */
+	public int getAge() {
+		return age;
+	}
+	/**
+	 * @param age the age to set
+	 */
+	public void setAge(int age) {
+		this.age = age;
+	}
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+}
+```
+5. 简单的参数验证  addFieldError（一般不用struts2的UI标签）
+* JSP页面用来取出数据
+```
+    <h2>数据验证</h2>
+	用户添加错误
+	<s:fielderror fieldName="name"></s:fielderror>
+	<br><s:property value="errors.name"/>
+	<s:debug></s:debug>
+```
+* 对应的Action
+```
+import com.opensymphony.xwork2.ActionSupport;
+
+public class UserAction extends ActionSupport{
+	
+	private String name;
+	
+	public String add() {
+		if(name == null || !name.equals("admin")){	
+			this.addFieldError("name", "你的用户名是不正确的！");
+			return ERROR;
+		}
+		return SUCCESS;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+}
+```
+6. 访问Web元素
+* Map类型
+  * IoC
+  * 依赖于Struts容器
+* 原始类型
+  * Ioc
+  * 依赖于Struts容器
+```
+//依赖于容器
+import java.util.Map;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+
+public class LoginAction extends ActionSupport{
+	private Map request;
+	private Map session;
+	private Map application;
+	
+	public LoginAction1() {
+		request = (Map)ActionContext.getContext().get("request");
+		session = ActionContext.getContext().getSession();
+		application = ActionContext.getContext().getApplication();
+	}
+	
+	public String execute() {
+		request.put("r1", "r1");
+		session.put("s1", "s1");
+		application.put("a1", "a1");
+		if(session == null) {
+			System.out.println("Hello");
+		}
+		System.out.println(session);
+		return SUCCESS;
+	}
+	
+}
+```
+```
+<!--依赖于容器的JSP页面-->
+<s:property value="#request.r1"/> | <%= request.getAttribute("r1") %> <br>
+<s:property value="#session.s1"/> |　<%= session.getAttribute("s1") %> <br>
+<s:property value="#application.a1"/> |　<%= application.getAttribute("a1") %> <br>
+<s:debug></s:debug>
+```
+IoC实现
+```
+import java.util.Map;
+
+import org.apache.struts2.interceptor.ApplicationAware;
+import org.apache.struts2.interceptor.RequestAware;
+import org.apache.struts2.interceptor.SessionAware;
+
+import com.opensymphony.xwork2.ActionSupport;
+
+public class LoginAction2 extends ActionSupport implements RequestAware, SessionAware, ApplicationAware{
+
+	private Map<String, Object> request;
+	private Map<String, Object> session;
+	private Map<String, Object> application;
+	
+	public String execute() {
+		request.put("r1", "r1");
+		session.put("s1", "s1");
+		application.put("a1", "a1");
+		return SUCCESS;
+	}
+	
+	@Override
+	public void setApplication(Map<String, Object> application) {
+		this.application = application;
+	}
+
+	@Override
+	public void setSession(Map<String, Object> session) {
+		this.session = session;
+	}
+
+	@Override
+	public void setRequest(Map<String, Object> request) {
+		this.request = request;
+	}
+	
+}
+```
+7. 包含文件配置
+```
+<include file="struts2-mydefaction.xml"></include> 
+```
+8. 默认Action处理
+```
+<default-action-ref name="index"></default-action-ref>
+<action name="index">
+	<result>
+		/index.jsp
+	</result>
+</action>
+```
