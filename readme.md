@@ -1,6 +1,7 @@
 # mystruts2learning
 Struts2学习
-## Struts2
+
+### Struts2基础配置
 1. struts.xml配置文件
 
     <!-- 动态方法绑定注册 -->
@@ -91,6 +92,7 @@ Struts2学习
 	1. 自己写一个可以返回String类型的方法
 	2. 实现Action接口
 	3. 继承于ActionSupport类（推荐）
+	
 ### Action总结
 1. 实现一个Action最常用方式：从ActionSupport继承
 ```
@@ -355,5 +357,10 @@ public class LoginAction2 extends ActionSupport implements RequestAware, Session
 	</result>
 </action>
 ```
+
 ### OGNL表达式
 1. user.xxx只有传，才会构造。同时还必须要提供参数 为空的构造方法。
+2. 详情见ognl包中的示例和ognl.jsp
+
+### 标签
+*暂空，需要时再看*

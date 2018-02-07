@@ -45,6 +45,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<li>访问Map中所有的value：<s:property value="dogMap.values"/></li>
 		<li>访问容器大小：<s:property value="dogMap.size()"/></li>
    	</ol>
+   	<ol>
+   		<li><s:property value="users.{?#this.age==1}.{age}"/></li>
+		<li><s:property value="users.{^#this.age>1}.{age}"/></li>
+		<li><s:property value="users.{$#this.age>1}.{age}"/></li>
+		<li><s:property value="users.{$#this.age>1}.{age} == null"/></li>   		
+   	</ol>
+   	
+   	<ol>
+   		<li><s:if test="#parameters.age < 20"/>too young</li>
+   		<li><s:elseif test="#parameters.age >= 20">yeah</s:elseif>
+   		<li><s:else>No</s:else></li>
+   		<s:property value="#parameters.age"/>
+   	</ol>
    	<s:debug></s:debug>
   </body>
 </html>
