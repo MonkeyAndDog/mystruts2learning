@@ -357,10 +357,28 @@ public class LoginAction2 extends ActionSupport implements RequestAware, Session
 	</result>
 </action>
 ```
+---
 
 ### OGNL表达式
 1. user.xxx只有传，才会构造。同时还必须要提供参数 为空的构造方法。
 2. 详情见ognl包中的示例和ognl.jsp
+---
 
 ### 标签
 *暂空，需要时再看*
+---
+
+### 命名规范（原则：简单就是美）
+* 数据库命名
+	1. 库名：项目名
+	2. 表命命名：_TableName(下划线+驼峰标识的mode名)
+	2. 字段命名：保持和属性名一致
+* 类及文件命名
+	1. 用层来分包：com.xxx.service/manager/bean/model
+	2. Action都以Action结尾
+	3. JSP命名，使用 *-* 配置
+* 配置文件
+	1. 前台命名 /
+	2. 后台命名 /admin
+	
+### 项目实战采用其他方式（当下流行的后台UI框架）

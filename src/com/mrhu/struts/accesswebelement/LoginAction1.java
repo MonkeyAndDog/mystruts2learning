@@ -20,6 +20,7 @@ public class LoginAction1 extends ActionSupport{
 		request.put("r1", "r1");
 		session.put("s1", "s1");
 		application.put("a1", "a1");
+		
 		if(session == null) {
 			System.out.println("Hello");
 		}
