@@ -88,7 +88,7 @@
     		<result name="error">/Error.jsp</result>
     		<allowed-methods>add</allowed-methods>
     	</action>
-    	
+<!--     	
     	<action name="user5" class="com.mrhu.struts.dynamicresult.UserAction">
     		<result>
     			<param name="location">${r}</param>
@@ -98,7 +98,7 @@
     	<action name="user6" class="com.mrhu.struts.resultwithparam.UserAction">
     		<result>/user_login_success.jsp?t=${type}</result>
     	</action>
-    	
+ -->    	
     	<!-- 动态方法绑定，访问时使用actionName!methodName方式访问 -->
     	<action name="userABB" class="com.mrhu.struts.T0500.UserAction">
     		<result>/UserAddSuccess.jsp</result>
